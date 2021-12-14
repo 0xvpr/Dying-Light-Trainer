@@ -38,10 +38,10 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     FreeLibraryAndExitThread((HMODULE)lpReserved, 0);
 }
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
+    UNREFERENCED_PARAMETER(lpReserved); // Caveman mode
+
     HANDLE hMainThread;
 
     switch (dwReason)
@@ -75,4 +75,3 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 
     return TRUE;
 }
-#pragma GCC diagnostic pop
