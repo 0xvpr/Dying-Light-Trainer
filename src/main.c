@@ -25,7 +25,8 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     AllocConsole();
     freopen_s(&fp, "CONOUT$", "w", stdout);
 
-    fprintf(fp, "%d\n", foo());
+    fprintf(fp, "foo()   : %d\n", foo());
+    fprintf(fp, "bar(69) : %d\n", bar(69));
     
     while (!(bShutdown = events_HandleKeyboard()))
     {
