@@ -13,7 +13,6 @@
 #include <stdio.h>
 
 uintptr_t module_base_addr = 0;
-HWND dll_handle = NULL;
 
 bool bMaximizeMenu = true;
 bool bShutdown     = false;
@@ -46,21 +45,19 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
+    HANDLE hack_thread = NULL;
+
     switch (dwReason)
     {
         case DLL_PROCESS_ATTACH:
         {
-            dll_handle = (HWND)hInstance;
-            DisableThreadLibraryCalls(hInstance);
-            CreateThread(0, 0, MainThread, hInstance, 0, 0);
-            break;
-        }
-        case DLL_PROCESS_DETACH:
-        {
-            break;
-        }
-        default:
-        {
+            DisableThreadLibraryCalls((HMODULE)hInstance);
+            hack_thread = CreateThread(0, 0, MainThread, (HMODULE)hInstance, 0, 0);
+	    if (!hack_thread)
+	    {
+		return FALSE;
+	    }
+	    CloseHandle(hack_thread);
             break;
         }
     }
