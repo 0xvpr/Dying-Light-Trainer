@@ -36,8 +36,9 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
         // Main Loop
     }
 
+    fclose(fp);
+    FreeConsole();
     FreeLibraryAndExitThread((HMODULE)lpReserved, 0);
-    return TRUE;
 }
 #pragma GCC diagnostic pop
 
