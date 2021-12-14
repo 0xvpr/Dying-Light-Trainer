@@ -1,8 +1,8 @@
 segment .text
 
-global _foo
+global foo
 
-_foo:
+foo:
     xor     eax, eax
     mov     eax, 0x45
     ret

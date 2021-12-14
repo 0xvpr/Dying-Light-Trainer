@@ -1,16 +1,16 @@
 PROJECT  = project-name
 
-CC       = i686-w64-mingw32-gcc
-#CC      = x86_64-w64-mingw32-gcc
-CFLAGS   = -std=c99 -masm=intel -pedantic -Wall -Wextra -Werror -shared
+#CC      = i686-w64-mingw32-gcc
+CC       = x86_64-w64-mingw32-gcc
+CFLAGS   = -std=c99 -masm=intel -Wall -Wextra -Werror -Wpedantic -Wshadow -shared
 
-LD       = i686-w64-mingw32-gcc
-#LD      = x86_64-w64-mingw32-gcc
+#LD      = i686-w64-mingw32-gcc
+LD       = x86_64-w64-mingw32-gcc
 LDFLAGS  = -shared
 
 ASM      = nasm
-ASFLAGS  = -f win32
-#ASFLAGS = -f win64
+#ASFLAGS = -f win32
+ASFLAGS  = -f win64
 
 BIN      = bin
 BUILD    = build
