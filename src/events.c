@@ -4,7 +4,7 @@
 bool events_HandleKeyboard(void)
 {
     // Handle Keyboard Events
-    if (GetAsyncKeyState(VK_END))
+    if (GetAsyncKeyState(VK_DELETE))
     {
         return true;
     }
