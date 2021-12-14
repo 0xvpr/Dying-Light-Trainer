@@ -45,7 +45,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
-    HANDLE hack_thread = NULL;
+    HANDLE hack_thread;
 
     switch (dwReason)
     {
@@ -53,11 +53,24 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         {
             DisableThreadLibraryCalls((HMODULE)hInstance);
             hack_thread = CreateThread(0, 0, MainThread, (HMODULE)hInstance, 0, 0);
-	    if (!hack_thread)
-	    {
-		return FALSE;
-	    }
-	    CloseHandle(hack_thread);
+
+            if (!hack_thread)
+            {
+                return FALSE;
+            }
+
+            CloseHandle(hack_thread);
+        }
+        case DLL_PROCESS_DETACH:
+        {
+            // 0xDEAD
+        }
+        case DLL_PROCESS_VERIFIER:
+        {
+            // 0xBEEF
+        }
+        default:
+        {
             break;
         }
     }
