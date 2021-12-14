@@ -52,7 +52,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         case DLL_PROCESS_ATTACH:
         {
             DisableThreadLibraryCalls((HMODULE)hInstance);
-            hack_thread = CreateThread(0, 0, MainThread, (HMODULE)hInstance, 0, 0);
+            hack_thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)MainThread, (HMODULE)hInstance, 0, 0);
 
             if (!hack_thread)
             {
