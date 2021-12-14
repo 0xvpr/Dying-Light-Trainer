@@ -1,13 +1,15 @@
-#ifndef _MEM_H
-#define _MEM_H
+#ifndef MEM_HPP
+#define MEM_HPP
 
 #ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
 #endif
+extern "C" {
 #include <windows.h>
+}
 
-#include <stdbool.h>
-#include <stdint.h>
+#include <cstdint>
+#include <cstdio>
 
 typedef struct _PatternMaskPair
 {
@@ -73,4 +75,4 @@ char* TrampHook(char* targetFunc, char* myFunc, size_t size);
 **/
 uintptr_t FindPattern(unsigned char* data, size_t data_size, uintptr_t base_addr, unsigned char* pattern, char* mask, uintptr_t offset, uintptr_t result_usage);
 
-#endif /* _MEM_H */
+#endif // MEM_HPP

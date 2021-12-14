@@ -7,9 +7,9 @@
  *     Template for Video Game hacking using pure C
 **/
 
-#include "assembly.h"
-#include "events.h"
-#include "mem.h"
+#include "Assembly.hpp"
+#include "Events.hpp"
+#include "Mem.hpp"
 #include <stdio.h>
 
 uintptr_t module_base_addr = 0;

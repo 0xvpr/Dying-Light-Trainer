@@ -1,10 +1,12 @@
 #ifndef WIN32_LEAN_AND_MEAN
 #  define WIN32_LEAN_AND_MEAN
 #endif
+extern "C" {
 #include <windows.h>
+}
 
-#include "events.h"
-#include "hacks.h"
+#include "Events.hpp"
+#include "Hacks.hpp"
 
 bool events_HandleKeyboard(void)
 {

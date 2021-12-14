@@ -1,7 +1,5 @@
-#ifndef _EVENTS_H
-#define _EVENTS_H
-
-#include <stdbool.h>
+#ifndef EVENTS_HPP
+#define EVENTS_HPP
 
 /**
  * Listens for keyboard input and performs various actions.
@@ -12,4 +10,4 @@
 **/
 bool events_HandleKeyboard(void);
 
-#endif /* _EVENTS_H */ 
+#endif // EVENTS_HPP

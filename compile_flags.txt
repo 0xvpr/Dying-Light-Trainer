@@ -1,9 +1,9 @@
--std=c99
+-std=c++2a
 -masm=intel
---target=x86_64-pc-windows-posix
--isystem/usr/lib/gcc/x86_64-w64-mingw32/9.3-win32/include
--isystem/usr/lib/gcc/x86_64-w64-mingw32/9.3-win32/include-fixed
--isystem/usr/lib/gcc/x86_64-w64-mingw32/9.3-win32/../../../../x86_64-w64-mingw32/include
+--target=x86_64-pc-windows
+-I/usr/lib/gcc/x86_64-w64-mingw32/9.3-posix/include
+-I/usr/lib/gcc/x86_64-w64-mingw32/9.3-posix/include-fixed
+-I/usr/lib/gcc/x86_64-w64-mingw32/9.3-posix/../../../../x86_64-w64-mingw32/include
 -Iinclude
 -Wall
 -Wextra

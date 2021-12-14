@@ -1,4 +1,4 @@
-#include "mem.h"
+#include "mem.hpp"
 
 uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size)
 {
