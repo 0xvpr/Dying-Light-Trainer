@@ -20,7 +20,8 @@ then
                                            nasm
 
 else
-    printf "install-toolchain.sh has already been ran."
+    printf "install-toolchain.sh has already been ran.\n"
+    printf "remove ./.installed to remove this warning.\n"
     exit 1
 fi
 

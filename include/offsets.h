@@ -3,6 +3,6 @@
 
 #include <stddef.h>
 
-// offsets
+uintptr_t player_base = 0;
 
 #endif /* _OFFSETS_H */

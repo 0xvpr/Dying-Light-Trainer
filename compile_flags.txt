@@ -10,4 +10,5 @@
 -Werror
 -Wpedantic
 -Wshadow
+-Wno-empty-translation-unit
 -fms-extensions

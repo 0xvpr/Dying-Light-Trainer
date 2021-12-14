@@ -70,3 +70,40 @@ char* TrampHook(char* src, char* dst, size_t size)
         return NULL;
     }
 }
+
+/*intptr_t FindPattern(std::vector<unsigned char> data, intptr_t baseAddress, const unsigned char* lpPattern, const char* pszMask, intptr_t offset, intptr_t resultUsage)*/
+/*{*/
+    /*// Build vectored pattern..*/
+    /*std::vector<std::pair<unsigned char, bool>> pattern;*/
+    /*for (size_t x = 0, y = strlen(pszMask); x < y; x++)*/
+        /*pattern.push_back(std::make_pair(lpPattern[x], pszMask[x] == 'x'));*/
+ 
+    /*auto scanStart = data.begin();*/
+    /*auto resultCnt = 0;*/
+ 
+    /*while (true)*/
+    /*{*/
+        /*// Search for the pattern..*/
+        /*auto ret = std::search(scanStart, data.end(), pattern.begin(), pattern.end(),*/
+            /*[&](unsigned char curr, std::pair<unsigned char, bool> currPattern)*/
+        /*{*/
+            /*return (!currPattern.second) || curr == currPattern.first;*/
+        /*});*/
+ 
+        /*// Did we find a match..*/
+        /*if (ret != data.end())*/
+        /*{*/
+            /*// If we hit the usage count, return the result..*/
+            /*if (resultCnt == resultUsage || resultUsage == 0)*/
+                /*return (std::distance(data.begin(), ret) + baseAddress) + offset;*/
+ 
+            /*// Increment the found count and scan again..*/
+            /*++resultCnt;*/
+            /*scanStart = ++ret;*/
+        /*}*/
+        /*else*/
+            /*break;*/
+    /*}*/
+ 
+    /*return 0;*/
+/*}*/

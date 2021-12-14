@@ -1,16 +1,27 @@
 #ifndef _MEM_H
 #define _MEM_H
 
+#ifndef WIN32_LEAN_AND_MEAN
+#   define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
+
 #include <stdbool.h>
 #include <stdint.h>
 
-// TODO: remove extraneous functions ie Detour + Hook
+typedef struct _PatternMaskPair
+{
+    unsigned char*  pPattern;
+    unsigned char*  pMask;
+} PatternMaskPair;
 
 /**
- * Find Dynamic Memory Address of an embedded process.
+ * Finds the Dynamic Memory Access address of an embedded process.
  *
- * @param: uintptr_t ptr, unsigned offsets[], size_t size
+ * @param: uintptr_t ptr
+ * @param: unsigned offsets[]
+ * @param: size_t size
+ *
  * @return: uintptr_t
 **/
 uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size);
@@ -18,25 +29,48 @@ uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size);
 /**
  * Byte replacement from source to destination.
  *
- * @param: char* destination, char* source, size_t size
+ * @param: char* destination
+ * @param: char* source
+ * @param: size_t size
+ *
  * @return: void
 **/
 void Patch(char* dst, char* src, size_t size);
 
 /**
- * Hooks into a function and detours the target function to another function
+ * Hooks into a function and detours the target function to another function.
  *
- * @param: void* targetFunc, void* myFunc, size_t size
+ * @param: void* targetFunc
+ * @param: void* myFunc
+ * @param: size_t size
+ *
  * @return: bool
 **/
 bool Detour(void* targetFunc, void* myFunc, size_t size);
 
 /**
- * Hooks into a function and detours the target function to another function, then jumps back
+ * Hooks into a function and detours the target function to another function, then jumps back.
  *
- * @param: char* src, char* dst, size_t size
+ * @param: char* src
+ * @param: char* dst
+ * @param: size_t size
+ *
  * @return: char*
 **/
-char* TrampHook(char* src, char* dst, size_t size);
+char* TrampHook(char* targetFunc, char* myFunc, size_t size);
+
+/**
+ * Scans a given chunk of data for the given pattern and mask.
+ *
+ * @param:  data          The data to scan within for the given pattern.
+ * @param:  baseAddress   The base address of where the scan data is from.
+ * @param:  lpPattern     The pattern to scan for.
+ * @param:  pszMask       The mask to compare against for wildcards.
+ * @param:  offset        The offset to add to the pointer.
+ * @param:  resultUsage   The result offset to use when locating signatures that match multiple functions.
+ *
+ * @return: Pointer of the pattern found, 0 otherwise.
+**/
+uintptr_t FindPattern(unsigned char* data, size_t data_size, uintptr_t base_addr, unsigned char* pattern, char* mask, uintptr_t offset, uintptr_t result_usage);
 
 #endif /* _MEM_H */

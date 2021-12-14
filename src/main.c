@@ -1,7 +1,7 @@
 /**
- * Creator:   VPR
- * Created:   August 27th, 2021
- * Updated:   December 9th, 2021
+ * Creators:  VPR & ALGOL3070
+ * Created:   December 13th, 2021
+ * Updated:   December 14th, 2021
  * 
  * Description:
  *     Template for Video Game hacking using pure C
@@ -16,10 +16,7 @@ uintptr_t module_base_addr = 0;
 
 bool bMaximizeMenu = true;
 bool bShutdown     = false;
-bool bInit         = false;
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
 DWORD WINAPI MainThread(LPVOID lpReserved)
 {
     module_base_addr = (uintptr_t)GetModuleHandle(NULL);
@@ -28,7 +25,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     AllocConsole();
     freopen_s(&fp, "CONOUT$", "w", stdout);
 
-    fprintf(fp, "%d", foo());
+    fprintf(fp, "%d\n", foo());
     
     while (!(bShutdown = events_HandleKeyboard()))
     {
@@ -39,27 +36,27 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     FreeConsole();
     FreeLibraryAndExitThread((HMODULE)lpReserved, 0);
 }
-#pragma GCC diagnostic pop
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
-    HANDLE hack_thread;
+    HANDLE hMainThread;
 
     switch (dwReason)
     {
         case DLL_PROCESS_ATTACH:
         {
             DisableThreadLibraryCalls((HMODULE)hInstance);
-            hack_thread = CreateThread(0, 0, MainThread, (HMODULE)hInstance, 0, 0);
+            hMainThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)MainThread, (HMODULE)hInstance, 0, NULL);
 
-            if (!hack_thread)
+            if (!hMainThread)
             {
                 return FALSE;
             }
 
-            CloseHandle(hack_thread);
+            CloseHandle(hMainThread);
+            break;
         }
         case DLL_PROCESS_DETACH:
         {
@@ -71,7 +68,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         }
         default:
         {
-            break;
+            return FALSE;
         }
     }
 

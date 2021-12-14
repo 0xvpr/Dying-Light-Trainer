@@ -3,4 +3,6 @@
 #include "hacks.h"
 #include "mem.h"
 
-// Hacks
+extern uintptr_t module_base_addr;
+
+// TODO: write hacks

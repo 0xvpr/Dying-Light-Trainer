@@ -1,11 +1,11 @@
 PROJECT  = daylight-savings
 
-#CC      = i686-w64-mingw32-gcc
-CC       = x86_64-w64-mingw32-gcc
+#CC      = i686-w64-mingw32-gcc-posix
+CC       = x86_64-w64-mingw32-gcc-posix
 CFLAGS   = -std=c99 -masm=intel -Wall -Wextra -Werror -Wpedantic -Wshadow -shared
 
-#LD      = i686-w64-mingw32-gcc
-LD       = x86_64-w64-mingw32-gcc
+#LD      = i686-w64-mingw32-gcc-posix
+LD       = x86_64-w64-mingw32-gcc-posix
 LDFLAGS  = -shared
 
 ASM      = nasm
@@ -31,7 +31,7 @@ ASM_OBJECTS = $(patsubst $(ASM_SRC)/%.asm,$(ASM_OBJ)/%.o,$(ASM_SOURCES))
 INCLUDE  = include 
 INCLUDES = $(addprefix -I,$(INCLUDE))
 
-LIB_FILES = d3d9 d3dx9
+LIB_FILES =
 LIBS      = $(addprefix -l,$(LIB_FILES))
 
 all: debug release
