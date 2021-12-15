@@ -6,7 +6,11 @@ set(TARGET Daylight-Savings)
 
 # Enable languages
 enable_language(CXX)
-enable_language(ASM_NASM)
+if (MSVC)
+    enable_language(MASM)
+else ()
+    enable_language(ASM_NASM)
+endif ()
 
 # Set language standards
 set(CMAKE_CXX_STANDARD 20)
@@ -52,3 +56,12 @@ set_target_properties(
     PREFIX ""
     SUFFIX ".dll"
 )
+
+if (MSVC)
+    set_source_files_properties(
+        ${ASM_DIR}/foo.asm
+        ${ASM_DIR}/bar.asm
+        PROPERTIES
+        COMPILE_FLAGS "/safeseh"
+    )
+endif ()

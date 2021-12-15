@@ -75,4 +75,10 @@ char* TrampHook(char* targetFunc, char* myFunc, size_t size);
 **/
 uintptr_t FindPattern(unsigned char* data, size_t data_size, uintptr_t base_addr, unsigned char* pattern, char* mask, uintptr_t offset, uintptr_t result_usage);
 
+extern "C"
+{
+int CompareByteArray(PBYTE Data, PBYTE Signature);
+PBYTE FindSignature(PBYTE BaseAddress, DWORD ImageSize, PBYTE Signature);
+}
+
 #endif // MEM_HPP
