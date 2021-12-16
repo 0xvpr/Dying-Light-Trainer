@@ -1,23 +1,73 @@
-PROJECT     = Daylight-Savings.dll
+PROJECT  = daylight-savings
 
-CMAKE       = /bin/cmake
-CMAKE_FLAGS =
+#CC      = i686-w64-mingw32-gcc-posix
+CC       = x86_64-w64-mingw32-gcc-posix
+CFLAGS   = -std=c99 -masm=intel -Wall -Wextra -Werror -Wpedantic -Wshadow -shared
 
-SOURCES     = $(wildcard src/*.cpp)
-OBJECTS     = $(patsubst src/%.cpp,build/CMakeFiles/Testing.dir/src/%.cpp.o,$(SOURCES))
+#LD      = i686-w64-mingw32-gcc-posix
+LD       = x86_64-w64-mingw32-gcc-posix
+LDFLAGS  = -shared
 
-all: $(PROJECT)
+ASM      = nasm
+#ASFLAGS = -f win32
+ASFLAGS  = -f win64
 
-$(PROJECT): CMakeLists.txt
-	$(CMAKE) --build build
+BIN      = bin
+BUILD    = build
+DEBUG    = $(OBJ)/debug
+RELEASE  = $(OBJ)/release
 
-.PHONY: $(OBJECTS)
-CMakeLists.txt: $(OBJECTS)
-	$(CMAKE) -DCMAKE_TOOLCHAIN_FILE="mingw-gcc-toolchain.cmake" -B build
+SRC      = src
+OBJ      = build
+ASM_SRC  = asm
+ASM_OBJ  = $(OBJ)/asm
+
+SOURCES     = $(wildcard $(SRC)/*.c)
+DBG_OBJECTS = $(patsubst $(SRC)/%.c,$(DEBUG)/%.o,$(SOURCES))
+REL_OBJECTS = $(patsubst $(SRC)/%.c,$(RELEASE)/%.o,$(SOURCES))
+ASM_SOURCES = $(wildcard $(ASM_SRC)/*.asm)
+ASM_OBJECTS = $(patsubst $(ASM_SRC)/%.asm,$(ASM_OBJ)/%.o,$(ASM_SOURCES))
+
+INCLUDE  = include 
+INCLUDES = $(addprefix -I,$(INCLUDE))
+
+LIB_FILES = psapi
+LIBS      = $(addprefix -l,$(LIB_FILES))
+
+all: debug release
+
+debug: $(DEBUG)
+release: $(RELEASE)
+
+$(DEBUG): CFLAGS += -g -DDEBUG
+$(DEBUG): $(OBJ) $(BIN) $(ASM_OBJECTS) $(DBG_OBJECTS) 
+	$(LD) $(LDFLAGS) $(ASM_OBJECTS) $(DBG_OBJECTS) $(LIBS) -o $(BIN)/$(PROJECT)_d.dll
+
+$(RELEASE): CFLAGS  += -O3 -fno-ident -fvisibility=hidden -DNDEBUG
+$(RELEASE): LDFLAGS += -s
+$(RELEASE): $(OBJ) $(BIN) $(ASM_OBJECTS) $(REL_OBJECTS)
+	$(LD) $(LDFLAGS) $(ASM_OBJECTS) $(REL_OBJECTS) $(LIBS) -o $(BIN)/$(PROJECT).dll
+
+$(ASM_OBJECTS): $(ASM_OBJ)/%.o: $(ASM_SRC)/%.asm
+	$(ASM) $(ASFLAGS) $^ -o $@
+
+$(DBG_OBJECTS): $(DEBUG)/%.o: $(SRC)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+
+$(REL_OBJECTS): $(RELEASE)/%.o: $(SRC)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+
+$(OBJ):
+	mkdir -p $@/asm
+	mkdir -p $@/debug
+	mkdir -p $@/release
+
+$(BIN):
+	mkdir -p $@
 
 clean:
-	rm -fr bin/*
-	rm -fr build/*
+	rm -f bin/*
+	rm -f build/{asm,debug,release}/*
 
 extra-clean:
 	rm -fr bin

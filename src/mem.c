@@ -1,4 +1,4 @@
-#include "mem.hpp"
+#include "mem.h"
 
 uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size)
 {
@@ -71,9 +71,7 @@ char* TrampHook(char* src, char* dst, size_t size)
     }
 }
 
-extern "C"
-{
-int CompareByteArray(PBYTE Data, PBYTE Signature)
+static inline BOOL CompareByteArray(PBYTE Data, PBYTE Signature)
 {
 	for (; *Signature; ++Signature, ++Data)
 	{
@@ -105,6 +103,6 @@ PBYTE FindSignature(PBYTE BaseAddress, DWORD ImageSize, PBYTE Signature)
 			return BaseAddress;
 		}
 	}
+
 	return NULL;
-}
 }

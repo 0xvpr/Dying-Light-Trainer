@@ -1,4 +1,4 @@
-#include "render.hpp"
+#include "render.h"
 
 extern bool bMaximizeMenu;
 

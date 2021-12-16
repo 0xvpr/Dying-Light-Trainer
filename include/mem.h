@@ -1,21 +1,13 @@
-#ifndef MEM_HPP
-#define MEM_HPP
+#ifndef _MEM_H
+#define _MEM_H
 
 #ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
 #endif
-extern "C" {
 #include <windows.h>
-}
 
-#include <cstdint>
-#include <cstdio>
-
-typedef struct _PatternMaskPair
-{
-    unsigned char*  pPattern;
-    unsigned char*  pMask;
-} PatternMaskPair;
+#include <stdbool.h>
+#include <stdint.h>
 
 /**
  * Finds the Dynamic Memory Access address of an embedded process.
@@ -73,12 +65,6 @@ char* TrampHook(char* targetFunc, char* myFunc, size_t size);
  *
  * @return: Pointer of the pattern found, 0 otherwise.
 **/
-uintptr_t FindPattern(unsigned char* data, size_t data_size, uintptr_t base_addr, unsigned char* pattern, char* mask, uintptr_t offset, uintptr_t result_usage);
-
-extern "C"
-{
-int CompareByteArray(PBYTE Data, PBYTE Signature);
 PBYTE FindSignature(PBYTE BaseAddress, DWORD ImageSize, PBYTE Signature);
-}
 
-#endif // MEM_HPP
+#endif /* _MEM_H */

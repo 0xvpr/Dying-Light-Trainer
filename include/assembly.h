@@ -1,10 +1,5 @@
-#ifndef ASSEMBLY_HPP
-#define ASSEMBLY_HPP
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#ifndef _ASSEMBLY_H
+#define _ASSEMBLY_H
 
 /**
  * Takes no parameters.
@@ -24,8 +19,4 @@ int foo(void);
 **/
 int bar(int);
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif // ASSEMBLY_HPP
+#endif /* _ASSEMBLY_H */

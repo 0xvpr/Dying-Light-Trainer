@@ -7,9 +7,9 @@
  *     Template for Video Game hacking using pure C
 **/
 
-#include "Assembly.hpp"
-#include "Events.hpp"
-#include "Mem.hpp"
+#include "Assembly.h"
+#include "Events.h"
+#include "Mem.h"
 #include <stdio.h>
 
 uintptr_t module_base_addr = 0;
@@ -24,9 +24,6 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     FILE* fp;
     AllocConsole();
     freopen_s(&fp, "CONOUT$", "w", stdout);
-
-    fprintf(fp, "foo()   : %d\n", foo());
-    fprintf(fp, "bar(69) : %d\n", bar(69));
     
     while (!(bShutdown = events_HandleKeyboard()))
     {

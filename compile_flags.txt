@@ -1,4 +1,4 @@
--std=c++2a
+-std=c99
 -masm=intel
 --target=x86_64-pc-windows
 -I/usr/lib/gcc/x86_64-w64-mingw32/9.3-posix/include
@@ -8,7 +8,5 @@
 -Wall
 -Wextra
 -Werror
--Wpedantic
 -Wshadow
--Wno-empty-translation-unit
 -fms-extensions
