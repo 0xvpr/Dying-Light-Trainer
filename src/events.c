@@ -3,28 +3,22 @@
 
 #ifndef WIN32_LEAN_AND_MEAN
 #  define WIN32_LEAN_AND_MEAN
-#endif
+#endif // WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdio.h>
 
+#define TOGGLE(vkey,func,bState,name) \
+    if (GetAsyncKeyState(vkey) & 1) \
+    { \
+        bState = !bState; \
+        func(bState); \
+        printf(#name":\t%s\n", bState ? "Enabled" : "Disabled"); \
+    }
+
 bool events_HandleKeyboard(void)
 {
-    // Toggle god mode
-    if (GetAsyncKeyState(VK_F1) & 1)
-    {
-        bGodmode = !bGodmode;
-
-        hacks_ToggleGodmode(bGodmode);
-        printf("Godmode:\t%s\n", bGodmode ? "Enabled" : "Disabled");
-    }
-
-    if (GetAsyncKeyState(VK_F2) & 1)
-    {
-        bOneShot = !bOneShot;
-
-        hacks_ToggleOneShot(bOneShot);
-        printf("Oneshot:\t%s\n", bGodmode ? "Enabled" : "Disabled");
-    }
+    TOGGLE(VK_F1, hacks_ToggleGodmode, bGodmode, "God mode");
+    TOGGLE(VK_F2, hacks_ToggleOneShot, bOneShot, "One shot");
 
     // Cleanup & reset
     if (GetAsyncKeyState(VK_DELETE))
