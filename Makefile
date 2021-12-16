@@ -1,38 +1,38 @@
-PROJECT  = daylight-savings
+PROJECT     = daylight-savings
 
-#CC      = i686-w64-mingw32-gcc-posix
-CC       = x86_64-w64-mingw32-gcc-posix
-CFLAGS   = -std=c99 -masm=intel -Wall -Wextra -Werror -Wpedantic -Wshadow -shared
+#CC         = i686-w64-mingw32-gcc-posix
+CC          = x86_64-w64-mingw32-gcc-posix
+CFLAGS      = -std=c99 -Wall -Wextra -Werror -Wpedantic -Wshadow
 
-#LD      = i686-w64-mingw32-gcc-posix
-LD       = x86_64-w64-mingw32-gcc-posix
-LDFLAGS  = -shared
+#LD         = i686-w64-mingw32-gcc-posix
+LD          = x86_64-w64-mingw32-gcc-posix
+LDFLAGS     = -shared
 
-ASM      = nasm
-#ASFLAGS = -f win32
-ASFLAGS  = -f win64
+ASM         = nasm
+#ASFLAGS    = -f win32
+ASFLAGS     = -f win64
 
-BIN      = bin
-BUILD    = build
-DEBUG    = $(OBJ)/debug
-RELEASE  = $(OBJ)/release
+BIN         = bin
+BUILD       = build
+DEBUG       = $(OBJ)/debug
+RELEASE     = $(OBJ)/release
 
-SRC      = src
-OBJ      = build
-ASM_SRC  = asm
-ASM_OBJ  = $(OBJ)/asm
-
+SRC         = src
+OBJ         = build
 SOURCES     = $(wildcard $(SRC)/*.c)
 DBG_OBJECTS = $(patsubst $(SRC)/%.c,$(DEBUG)/%.o,$(SOURCES))
 REL_OBJECTS = $(patsubst $(SRC)/%.c,$(RELEASE)/%.o,$(SOURCES))
+
+ASM_SRC     = asm
+ASM_OBJ     = $(OBJ)/asm
 ASM_SOURCES = $(wildcard $(ASM_SRC)/*.asm)
 ASM_OBJECTS = $(patsubst $(ASM_SRC)/%.asm,$(ASM_OBJ)/%.o,$(ASM_SOURCES))
 
-INCLUDE  = include 
-INCLUDES = $(addprefix -I,$(INCLUDE))
+INCLUDE     = include 
+INCLUDES    = $(addprefix -I,$(INCLUDE))
 
-LIB_FILES = psapi
-LIBS      = $(addprefix -l,$(LIB_FILES))
+LIB_FILES   = psapi
+LIBS        = $(addprefix -l,$(LIB_FILES))
 
 all: debug release
 

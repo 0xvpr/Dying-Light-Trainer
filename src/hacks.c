@@ -25,7 +25,7 @@ void hacks_ToggleGodmode(bool bEnabled)
     };
 
     unsigned char patch[8] = {
-        0xEB, 0x06,  // jmp $+0x06
+        0xEB, 0x06,  // jmp     $+0x06
         0x90,        // nop
         0x90,        // nop
         0x90,        // nop
@@ -43,7 +43,8 @@ void hacks_ToggleGodmode(bool bEnabled)
     if (bEnabled)
     {
         unsigned char pattern[9] = {
-            0xF3, 0x0F, 0x11, 0x83, 0x64, 0x09, 0x00, 0x00, 0x40  // movss [rbx+00000964],xmm0
+            0xF3, 0x0F, 0x11, 0x83, 0x64, 0x09, 0x00, 0x00,  // movss   [rbx+????????], xmm0
+            0x40                                             // ??
         };
 
         godmode_addr = (uintptr_t)FindSignature(client, modInfo.SizeOfImage, pattern);
@@ -52,13 +53,13 @@ void hacks_ToggleGodmode(bool bEnabled)
     else
     {
         unsigned char pattern[8] = {
-            0xEB, 0x06,  // jmp $+0x06
-            0x90,        // nop
-            0x90,        // nop
-            0x90,        // nop
-            0x90,        // nop
-            0x90,        // nop
-            0x90         // nop
+            0xEB, 0x06,       // jmp    $+0x06
+            0x90,             // nop
+            0x90,             // nop
+            0x90,             // nop
+            0x90,             // nop
+            0x90,             // nop
+            0x90              // nop
         };
 
         godmode_addr = (uintptr_t)FindSignature(client, modInfo.SizeOfImage, pattern);
