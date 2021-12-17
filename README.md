@@ -24,8 +24,9 @@ the <code>DyingLightGame.exe</code> process.
 Once the DLL is injected, you will have access to the following Hacks:
 - [x] F1: God Mode
 - [x] F2: One shot kill
-- [ ] F3: Noclip
-- [ ] F4: Flash (5x Speed)
+- [x] F3: Infinite Stamina
+- [ ] F4: Noclip
+- [ ] F5: Flash (5x Speed)
 
 ## Build Instructions (Debian)
 #### Toolchain

@@ -19,6 +19,7 @@ bool events_HandleKeyboard(void)
 {
     TOGGLE(VK_F1, hacks_ToggleGodmode, bGodmode, "God mode");
     TOGGLE(VK_F2, hacks_ToggleOneShot, bOneShot, "One shot");
+    TOGGLE(VK_F3, hacks_ToggleInfiniteStamina, bStamina, "Inf Stamina");
 
     // Cleanup & reset
     if (GetAsyncKeyState(VK_DELETE))
