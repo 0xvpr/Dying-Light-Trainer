@@ -18,7 +18,7 @@ uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size)
     return addr;
 }
 
-void Patch(char* dst, char* src, size_t size)
+void Patch(void* dst, void* src, size_t size)
 {
     DWORD oldprotect;
 
@@ -71,38 +71,39 @@ char* TrampHook(char* src, char* dst, size_t size)
     }
 }
 
-static inline BOOL CompareByteArray(PBYTE Data, PBYTE Signature)
+static inline BOOL CompareByteArray(unsigned char* data, unsigned char* pattern, size_t pattern_size)
 {
-	for (; *Signature; ++Signature, ++Data)
-	{
-		if (*Signature == '\x00')
-		{
-			continue;
-		}
-		if (*Data != *Signature)
-		{
-			return false;
-		}
-	}
-	return true;
+    for (size_t i = 0; i < pattern_size; i++, pattern++, data++)
+    {
+        if (*pattern == '\0')
+        {
+            continue;
+        }
+        else if (*data != *pattern)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
-PBYTE FindSignature(PBYTE BaseAddress, DWORD ImageSize, PBYTE Signature)
+PBYTE FindPattern(unsigned char* base_addr, size_t img_size, unsigned char* pattern, size_t pattern_size)
 {
-	BYTE First = Signature[0];
-	PBYTE Max = BaseAddress + ImageSize - strlen((PCHAR) Signature);
+    BYTE first = pattern[0];
+    PBYTE last = base_addr + img_size - pattern_size;
 
-	for (; BaseAddress < Max; ++BaseAddress)
-	{
-		if (*BaseAddress != First)
-		{
-			continue;
-		}
-		if (CompareByteArray(BaseAddress, Signature))
-		{
-			return BaseAddress;
-		}
-	}
+    for (; base_addr < last; ++base_addr)
+    {
+        if (*base_addr != first)
+        {
+            continue;
+        }
+        else if (CompareByteArray(base_addr, pattern, pattern_size))
+        {
+            return base_addr;
+        }
+    }
 
-	return NULL;
+    return NULL;
 }

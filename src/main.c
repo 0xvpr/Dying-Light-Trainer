@@ -1,15 +1,15 @@
 /**
  * Creators:  VPR & ALGOL3070
  * Created:   December 13th, 2021
- * Updated:   December 14th, 2021
+ * Updated:   December 16th, 2021
  * 
  * Description:
- *     Template for Video Game hacking using pure C
+ *     Dying Light cheats written with C & Assembly.
 **/
 
-#include "Assembly.h"
-#include "Events.h"
-#include "Mem.h"
+#include "assembly.h"
+#include "events.h"
+#include "mem.h"
 #include <stdio.h>
 
 uintptr_t module_base_addr = 0;
@@ -19,7 +19,7 @@ bool bShutdown     = false;
 
 DWORD WINAPI MainThread(LPVOID lpReserved)
 {
-    module_base_addr = (uintptr_t)GetModuleHandle(NULL);
+    module_base_addr = (uintptr_t)GetModuleHandleA(NULL);
 
     FILE* fp;
     AllocConsole();

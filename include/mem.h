@@ -3,7 +3,7 @@
 
 #ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
-#endif
+#endif // WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #include <stdbool.h>
@@ -29,7 +29,7 @@ uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size);
  *
  * @return: void
 **/
-void Patch(char* dst, char* src, size_t size);
+void Patch(void* dst, void* src, size_t size);
 
 /**
  * Hooks into a function and detours the target function to another function.
@@ -56,15 +56,13 @@ char* TrampHook(char* targetFunc, char* myFunc, size_t size);
 /**
  * Scans a given chunk of data for the given pattern and mask.
  *
- * @param:  data          The data to scan within for the given pattern.
- * @param:  baseAddress   The base address of where the scan data is from.
- * @param:  lpPattern     The pattern to scan for.
- * @param:  pszMask       The mask to compare against for wildcards.
- * @param:  offset        The offset to add to the pointer.
- * @param:  resultUsage   The result offset to use when locating signatures that match multiple functions.
+ * @param:  base_addr       The base address of where the scan data is from.
+ * @param:  img_size        The size of the module.
+ * @param:  pattern         The pattern to scan for.
+ * @param:  pattern_size    The size of the pattern to scan for.
  *
  * @return: Pointer of the pattern found, 0 otherwise.
 **/
-PBYTE FindSignature(PBYTE BaseAddress, DWORD ImageSize, PBYTE Signature);
+PBYTE FindPattern(unsigned char* base_addr, size_t img_size, unsigned char* pattern, size_t s);
 
 #endif /* _MEM_H */
