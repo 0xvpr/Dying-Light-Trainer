@@ -1,0 +1,27 @@
+PROJECT     = daylight-savings.dll
+
+CMAKE       = cmake.exe
+CMAKE_FLAGS =
+TOOLCHAIN   = 
+
+BUILD       = win-build
+
+SOURCES     = $(wildcard src/*.c)
+OBJECTS     = $(patsubst src/%.c,build/CMakeFiles/Testing.dir/src/%.c.o,$(SOURCES))
+
+all: $(PROJECT)
+
+$(PROJECT): CMakeLists.txt
+	$(CMAKE) --build $(BUILD) --config Release
+
+.PHONY: $(OBJECTS)
+CMakeLists.txt: $(OBJECTS)
+	$(CMAKE) -B $(BUILD)
+
+clean:
+	rm -fr bin/*
+	rm -fr $(BUILD)/*
+
+extra-clean:
+	rm -fr bin
+	rm -fr $(BUILD)

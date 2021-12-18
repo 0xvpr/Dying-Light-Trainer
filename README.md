@@ -15,7 +15,7 @@
 - [Goals](#Goals)
 
 ## What I Learned
-[ TODO ]
+ [ TODO ]
 
 ## How It Works
 Use any DLL injector that you are comfortable with to inject the daylight-savings.dll into  
@@ -28,7 +28,8 @@ Once the DLL is injected, you will have access to the following Hacks:
 - [ ] F4: Noclip
 - [ ] F5: Flash (5x Speed)
 
-## Build Instructions (Debian)
+## Build Instructions
+### Debian
 #### Toolchain
 ```bash
 # Install toolchain for the required compiler
@@ -38,6 +39,14 @@ sudo ./install-toolchain.sh # Modify it as you please before executing
 #### Build
 ```bash
 make -j$(nproc) # defaults to both release and debug builds
+```
+
+### Windows
+#### Build
+```powershell
+# Requires C++ Desktop package for visual studio
+cmake.exe -B win-build
+cmake.exe --build win-build
 ```
 
 ## Known Issues

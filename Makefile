@@ -23,7 +23,7 @@ SOURCES     = $(wildcard $(SRC)/*.c)
 DBG_OBJECTS = $(patsubst $(SRC)/%.c,$(DEBUG)/%.o,$(SOURCES))
 REL_OBJECTS = $(patsubst $(SRC)/%.c,$(RELEASE)/%.o,$(SOURCES))
 
-ASM_SRC     = asm
+ASM_SRC     = asm/nasm
 ASM_OBJ     = $(OBJ)/asm
 ASM_SOURCES = $(wildcard $(ASM_SRC)/*.asm)
 ASM_OBJECTS = $(patsubst $(ASM_SRC)/%.asm,$(ASM_OBJ)/%.o,$(ASM_SOURCES))

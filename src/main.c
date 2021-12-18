@@ -24,6 +24,9 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     FILE* fp;
     AllocConsole();
     freopen_s(&fp, "CONOUT$", "w", stdout);
+
+    printf("foo():\t\t%d\n", foo());
+    printf("bar(69):\t%d\n", bar(69));
     
     while (!(bShutdown = events_HandleKeyboard()))
     {
@@ -58,11 +61,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         }
         case DLL_PROCESS_DETACH:
         {
-            // 0xDEAD
-        }
-        case DLL_PROCESS_VERIFIER:
-        {
-            // 0xBEEF
+            // 0xDEADBEAF
         }
         default:
         {
