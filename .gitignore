@@ -80,8 +80,9 @@ dkms.conf
 # Folders
 bin
 out
-build
 lib
+build
+win-build
 
 # Compiled files 
 *.bin
