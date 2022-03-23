@@ -15,7 +15,7 @@
 - [Goals](#Goals)
 
 ## What I Learned
- [ TODO ]
+C is good but C++ is better (for video games)
 
 ## How It Works
 Use any DLL injector that you are comfortable with to inject the daylight-savings.dll into  
