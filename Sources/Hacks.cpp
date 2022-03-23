@@ -1,7 +1,7 @@
-#include "offsets.h"
-#include "entity.h"
-#include "hacks.h"
-#include "mem.h"
+#include "Offsets.hpp"
+#include "Entity.hpp"
+#include "Hacks.hpp"
+#include "Memory.hpp"
 
 #ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
@@ -15,15 +15,15 @@ bool bGodmode = false;
 bool bOneShot = false;
 bool bStamina = false;
 
-void hacks_ToggleGodmode(bool bEnabled)
-{
+void hacks_ToggleGodmode(bool bEnabled) {
+
     HANDLE      client;
     MODULEINFO  modInfo;
     uintptr_t   godmode_addr;
 
     client = GetModuleHandleA("gamedll_x64_rwdi.dll");
     GetModuleInformation( GetCurrentProcess(),
-                          client,
+                          (HMODULE)client,
                           &modInfo,
                           sizeof(modInfo) );
 
@@ -40,18 +40,15 @@ void hacks_ToggleGodmode(bool bEnabled)
         0x90         // nop
     };
 
-    if (bEnabled)
-    {
+    if (bEnabled) {
         unsigned char pattern[9] = {
-            0xF3, 0x0F, 0x11, 0x83, 0x64, 0x09, 0x00, 0x00,  // movss   [rbx+0x00000964 xmm0
-            0x40                                             // ??
+            0xF3, 0x0F, 0x11, 0x83, 0x64, 0x09, 0x00, 0x00,  // movss   [rbx+0x00000964], xmm0
+            0x44                                             // ??
         };
 
-        godmode_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, pattern, sizeof(pattern));
+        godmode_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, pattern, sizeof(pattern));
         godmode_addr ? Patch((void *)godmode_addr, (void *)health_patch, sizeof(health_patch)) : (void)NULL;
-    }
-    else
-    {
+    } else {
         unsigned char pattern[8] = {
             0xEB, 0x06,  // jmp    $+0x06
             0x90,        // nop
@@ -62,14 +59,14 @@ void hacks_ToggleGodmode(bool bEnabled)
             0x90         // nop
         };
 
-        godmode_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, pattern, sizeof(pattern));
+        godmode_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, pattern, sizeof(pattern));
         godmode_addr ? Patch((void *)godmode_addr, (void *)health_original, sizeof(health_original)) : (void)NULL;
     }
 
 }
 
-void hacks_ToggleOneShot(bool bEnabled)
-{
+void hacks_ToggleOneShot(bool bEnabled) {
+
     HANDLE      client;
     MODULEINFO  modInfo;
     uintptr_t   oneshot_addr;
@@ -96,12 +93,11 @@ void hacks_ToggleOneShot(bool bEnabled)
 
     client = GetModuleHandleA("gamedll_x64_rwdi.dll");
     GetModuleInformation( GetCurrentProcess(),
-                          client,
+                          (HMODULE)client,
                           &modInfo,
                           sizeof(modInfo) );
 
-    if (bEnabled)
-    {
+    if (bEnabled) {
         unsigned char pattern[16] = {
             0x89, 0x43, 0x78,              // mov   [rbx+0x78], eax
             0x48, 0x8B, 0x5C, 0x24, 0x30,  // mov   rbx, [rsp+0x30]
@@ -112,11 +108,9 @@ void hacks_ToggleOneShot(bool bEnabled)
             0x00                           // int3
         };
 
-        oneshot_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, pattern, sizeof(pattern));
+        oneshot_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, pattern, sizeof(pattern));
         oneshot_addr ? Patch((void *)oneshot_addr, (void *)patch, sizeof(patch)) : (void)0;
-    }
-    else
-    {
+    } else {
         unsigned char pattern[16] = {
             0x31, 0xC0,                    // xor   eax, eax
             0x89, 0x43, 0x78,              // mov   [rbx+0x78], eax
@@ -126,14 +120,14 @@ void hacks_ToggleOneShot(bool bEnabled)
             0xC3                           // ret 
         };
 
-        oneshot_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, pattern, sizeof(pattern));
+        oneshot_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, pattern, sizeof(pattern));
         oneshot_addr ? Patch((void *)oneshot_addr, (void *)original, sizeof(original)) : (void)0;
     }
 
 }
 
-void hacks_ToggleInfiniteStamina(bool bEnabled)
-{
+void hacks_ToggleInfiniteStamina(bool bEnabled) {
+
     HANDLE      client;
     MODULEINFO  modInfo;
     uintptr_t   weapon_addr;
@@ -141,7 +135,7 @@ void hacks_ToggleInfiniteStamina(bool bEnabled)
 
     client = GetModuleHandleA("gamedll_x64_rwdi.dll");
     GetModuleInformation( GetCurrentProcess(),
-                          client,
+                          (HMODULE)client,
                           &modInfo,
                           sizeof(modInfo) );
     
@@ -170,8 +164,7 @@ void hacks_ToggleInfiniteStamina(bool bEnabled)
         0xF3, 0x0F, 0x58, 0xC7             // addss     xmm0, xmm7
     }; 
 
-    if (bEnabled)
-    {
+    if (bEnabled) {
         unsigned char weapon_pattern[18] = {
             0xF3, 0x0F, 0x10, 0x4B, 0x10,  // movss     xmm1, [rbx+0x10]
             0xF3, 0x41, 0x0F, 0x5C, 0xC8,  // subss     xmm1, xmm8
@@ -186,14 +179,12 @@ void hacks_ToggleInfiniteStamina(bool bEnabled)
             0x76, 0x0C                     // jna       $+0x0C
         };
 
-        weapon_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, weapon_pattern, sizeof(weapon_pattern));
+        weapon_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, weapon_pattern, sizeof(weapon_pattern));
         weapon_addr ? Patch((void *)weapon_addr, (void *)weapon_patch, sizeof(weapon_patch)) : (void)0;
 
-        sprint_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, sprint_pattern, sizeof(sprint_pattern));
+        sprint_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, sprint_pattern, sizeof(sprint_pattern));
         sprint_addr ? Patch((void *)sprint_addr, (void *)sprint_patch, sizeof(sprint_patch)) : (void)0;
-    }
-    else
-    {
+    } else {
         unsigned char weapon_pattern[18] = {
             0xF3, 0x0F, 0x10, 0x4B, 0x10,  // movss     xmm1, [rbx+0x10]
             0xF3, 0x41, 0x0F, 0x5C, 0xC8,  // subss     xmm1, xmm8
@@ -208,10 +199,10 @@ void hacks_ToggleInfiniteStamina(bool bEnabled)
             0x76, 0x0C                     // jna       $+0x0C
         };
 
-        weapon_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, weapon_pattern, sizeof(weapon_pattern));
+        weapon_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, weapon_pattern, sizeof(weapon_pattern));
         weapon_addr ? Patch((void *)weapon_addr, (void *)weapon_original, sizeof(weapon_original)) : (void)0;
 
-        sprint_addr = (uintptr_t)FindPattern(client, modInfo.SizeOfImage, sprint_pattern, sizeof(sprint_pattern));
+        sprint_addr = (uintptr_t)FindPattern((PBYTE)client, modInfo.SizeOfImage, sprint_pattern, sizeof(sprint_pattern));
         sprint_addr ? Patch((void *)sprint_addr, (void *)sprint_original, sizeof(sprint_original)) : (void)0;
     }
 

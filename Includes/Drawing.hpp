@@ -1,0 +1,6 @@
+#ifndef DRAWING_HEADER
+#define DRAWING_HEADER
+
+// TODO: D3DX12
+
+#endif // DRAWING_HEADER

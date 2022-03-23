@@ -1,5 +1,5 @@
-#ifndef _ASSEMBLY_H
-#define _ASSEMBLY_H
+#ifndef ASSEMBLY_HEADER
+#define ASSEMBLY_HEADER
 
 /**
  * Takes no parameters.
@@ -8,7 +8,7 @@
  *
  * @return: Returns 69
 **/
-int foo(void);
+extern "C" int foo(void);
 
 /**
  * Takes one parameter and returns it.
@@ -17,6 +17,6 @@ int foo(void);
  *
  * @return: Returns x.
 **/
-int bar(int);
+extern "C" int bar(int);
 
-#endif /* _ASSEMBLY_H */
+#endif // ASSEMBLY_HEADER

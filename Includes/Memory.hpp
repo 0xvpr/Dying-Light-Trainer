@@ -1,24 +1,23 @@
-#ifndef _MEM_H
-#define _MEM_H
+#ifndef MEMORY_HEADER
+#define MEMORY_HEADER
 
 #ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
 #endif // WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <stdbool.h>
 #include <stdint.h>
 
 /**
  * Finds the Dynamic Memory Access address of an embedded process.
  *
  * @param: uintptr_t ptr
- * @param: unsigned offsets[]
+ * @param: unsigned* offsets
  * @param: size_t size
  *
  * @return: uintptr_t
 **/
-uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned offsets[], size_t size);
+uintptr_t FindDynamicAddress(uintptr_t ptr, unsigned* offsets, size_t size);
 
 /**
  * Byte replacement from source to destination.
@@ -65,4 +64,4 @@ char* TrampHook(char* targetFunc, char* myFunc, size_t size);
 **/
 PBYTE FindPattern(unsigned char* base_addr, size_t img_size, unsigned char* pattern, size_t s);
 
-#endif /* _MEM_H */
+#endif // MEMORY_HEADER

@@ -1,7 +1,5 @@
-#ifndef _RENDER_H
-#define _RENDER_H
-
-#include <stdbool.h>
+#ifndef RENDER_HEADER
+#define RENDER_HEADER
 
 typedef struct _HackMenu
 {
@@ -21,4 +19,4 @@ typedef struct _Coordinates
     int y;
 } Coordinates;
 
-#endif /* _RENDER_H */
+#endif // RENDER_HEADER
