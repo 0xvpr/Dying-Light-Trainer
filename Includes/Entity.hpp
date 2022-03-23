@@ -1,5 +1,5 @@
-#ifndef _ENTITY_H
-#define _ENTITY_H
+#ifndef ENTITY_HEADER
+#define ENTITY_HEADER
 
 // struct Entity
 // {
@@ -25,4 +25,4 @@
 // 
 // };
 
-#endif /* _ENTITY_H */
+#endif // ENTITY_HEADER

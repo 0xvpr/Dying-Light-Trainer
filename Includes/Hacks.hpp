@@ -1,11 +1,5 @@
-#ifndef _HACKS_H
-#define _HACKS_H
-
-#include <stdbool.h>
-
-bool bGodmode;
-bool bOneShot;
-bool bStamina;
+#ifndef HACKS_HEADER
+#define HACKS_HEADER
 
 /**
  * Toggles god mode on if bGodmode is true and off it bGodmode is false.
@@ -34,4 +28,4 @@ void hacks_ToggleOneShot(bool bOneShot);
 **/ 
 void hacks_ToggleInfiniteStamina(bool bStamina);
 
-#endif /* _HACKS_H */
+#endif // HACKS_HEADER

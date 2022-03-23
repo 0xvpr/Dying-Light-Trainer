@@ -1,47 +1,44 @@
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.2)
 
 # Project name
-project("Daylight Savings")
 set(TARGET daylight-savings)
-
-# Enable languages
-enable_language(C)
-enable_language(CXX)
-enable_language(ASM_MASM)
+project(${TARGET} C CXX ASM_MASM)
 
 # Set language standards
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_C_STANDARD   99)
+set(CMAKE_CXX_STANDARD          20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD            99)
+set(CMAKE_C_STANDARD_REQUIRED   ON)
 
 # Output path
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Lib")
 
 # Include directories
-include_directories(${TARGET} include)
-set(INCLUDE_DIR include)
+include_directories(${TARGET} Includes)
+set(INCLUDE_DIR Includes)
 
 # Source directories
-set(SOURCE_DIR src)
-set(ASM_DIR asm/masm)
+set(SOURCE_DIR Sources)
+set(ASM_DIR ${SOURCE_DIR}/Assembly)
 
 # Add sources
 set(SOURCES 
-    # C Sources
-    ${SOURCE_DIR}/main.c
-    ${SOURCE_DIR}/drawing.c
-    ${SOURCE_DIR}/events.c
-    ${SOURCE_DIR}/render.c
-    ${SOURCE_DIR}/hacks.c
-    ${SOURCE_DIR}/mem.c
-    # Includes
-    ${INCLUDE_DIR}/assembly.h
-    ${INCLUDE_DIR}/offsets.h
-    ${INCLUDE_DIR}/drawing.h
-    ${INCLUDE_DIR}/events.h
-    ${INCLUDE_DIR}/render.h
-    ${INCLUDE_DIR}/hacks.h
-    ${INCLUDE_DIR}/mem.h
+    # CXX Sources
+    ${SOURCE_DIR}/Main.cpp
+    ${SOURCE_DIR}/Drawing.cpp
+    ${SOURCE_DIR}/Events.cpp
+    ${SOURCE_DIR}/Render.cpp
+    ${SOURCE_DIR}/Hacks.cpp
+    ${SOURCE_DIR}/Memory.cpp
+    # CXX Includes
+    ${INCLUDE_DIR}/Assembly.hpp
+    ${INCLUDE_DIR}/Offsets.hpp
+    ${INCLUDE_DIR}/Drawing.hpp
+    ${INCLUDE_DIR}/Events.hpp
+    ${INCLUDE_DIR}/Render.hpp
+    ${INCLUDE_DIR}/Hacks.hpp
+    ${INCLUDE_DIR}/Memory.hpp
     # Assembly Sources
     ${ASM_DIR}/foo.asm
     ${ASM_DIR}/bar.asm

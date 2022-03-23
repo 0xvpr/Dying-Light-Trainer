@@ -1,6 +1,6 @@
-#include "render.h"
+#include "Render.hpp"
 
-extern bool bMaximizeMenu;
+bool bMaximizeMenu = true;
 
 Resolution resolution = { 0, 0 };
 Coordinates coordinates = { 30, 25 };
