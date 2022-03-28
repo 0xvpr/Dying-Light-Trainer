@@ -23,13 +23,14 @@ static bool init = false;
 static HANDLE hMainThread;
 
 Present oPresent;
-HWND window = NULL;
+HWND window = nullptr;
 WNDPROC oWndProc;
-ID3D11Device* pDevice = NULL;
-ID3D11DeviceContext* pContext = NULL;
+ID3D11Device* pDevice = nullptr;
+ID3D11DeviceContext* pContext = nullptr;
 ID3D11RenderTargetView* mainRenderTargetView;
 
-void InitImGui() {
+VOID
+InitImGui() {
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -64,7 +65,7 @@ hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
             window = sd.OutputWindow;
             ID3D11Texture2D* pBackBuffer;
             pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer);
-            pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+            pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &mainRenderTargetView);
             pBackBuffer->Release();
             oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
             InitImGui();
@@ -76,10 +77,10 @@ hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
-
-    ImGui::SetNextWindowSize(ImVec2{100, 60});
-    ImGui::SetNextWindowPos(ImVec2{10, 10});
+    
     ImGui::NewFrame();
+    ImGui::SetWindowPos(ImVec2{10, 10});
+    ImGui::SetWindowSize(ImVec2{100, 60});
 
     auto window_flags = ImGuiWindowFlags_NoMove |
                         ImGuiWindowFlags_AlwaysAutoResize;
@@ -88,7 +89,7 @@ hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
 
     ImGui::Render();
 
-    pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+    pContext->OMSetRenderTargets(1, &mainRenderTargetView, nullptr);
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     return oPresent(pSwapChain, SyncInterval, Flags);
@@ -100,7 +101,7 @@ DWORD
 WINAPI
 MainThread() {
 
-    module_base_addr = (uintptr_t)GetModuleHandle(NULL);
+    module_base_addr = (uintptr_t)GetModuleHandle(nullptr);
 
     bool init_hook = false;
     do {
