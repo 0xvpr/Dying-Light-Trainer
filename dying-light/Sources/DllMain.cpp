@@ -31,11 +31,11 @@ ID3D11RenderTargetView* mainRenderTargetView;
 
 void InitImGui() {
 
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
-	ImGui_ImplWin32_Init(window);
-	ImGui_ImplDX11_Init(pDevice, pContext);
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
+    ImGui_ImplWin32_Init(window);
+    ImGui_ImplDX11_Init(pDevice, pContext);
 
 }
 
@@ -44,11 +44,11 @@ LRESULT
 WINAPI
 WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
-	if (true && ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam)) {
-		return true;
+    if (true && ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam)) {
+        return true;
     }
 
-	return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
+    return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
 }
 
 [[nodiscard]]
@@ -56,42 +56,42 @@ HRESULT
 WINAPI
 hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
 
-	if (!init) {
-		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)& pDevice))) {
-			pDevice->GetImmediateContext(&pContext);
-			DXGI_SWAP_CHAIN_DESC sd;
-			pSwapChain->GetDesc(&sd);
-			window = sd.OutputWindow;
-			ID3D11Texture2D* pBackBuffer;
-			pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer);
-			pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
-			pBackBuffer->Release();
-			oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-			InitImGui();
-			init = true;
-		} else {
-			return oPresent(pSwapChain, SyncInterval, Flags);
+    if (!init) {
+        if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)& pDevice))) {
+            pDevice->GetImmediateContext(&pContext);
+            DXGI_SWAP_CHAIN_DESC sd;
+            pSwapChain->GetDesc(&sd);
+            window = sd.OutputWindow;
+            ID3D11Texture2D* pBackBuffer;
+            pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer);
+            pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+            pBackBuffer->Release();
+            oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+            InitImGui();
+            init = true;
+        } else {
+            return oPresent(pSwapChain, SyncInterval, Flags);
         }
-	}
+    }
 
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
 
     ImGui::SetNextWindowSize(ImVec2{100, 60});
     ImGui::SetNextWindowPos(ImVec2{10, 10});
-	ImGui::NewFrame();
+    ImGui::NewFrame();
 
     auto window_flags = ImGuiWindowFlags_NoMove |
                         ImGuiWindowFlags_AlwaysAutoResize;
-	ImGui::Begin("Daylight Savings", nullptr, window_flags);
-	ImGui::End();
+    ImGui::Begin("Daylight Savings", nullptr, window_flags);
+    ImGui::End();
 
-	ImGui::Render();
+    ImGui::Render();
 
-	pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	return oPresent(pSwapChain, SyncInterval, Flags);
+    return oPresent(pSwapChain, SyncInterval, Flags);
 
 }
 
@@ -102,13 +102,13 @@ MainThread() {
 
     module_base_addr = (uintptr_t)GetModuleHandle(NULL);
 
-	bool init_hook = false;
-	do {
-		if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
-			kiero::bind(8, (void**)& oPresent, hkPresent);
-			init_hook = true;
-		}
-	} while (!init_hook);
+    bool init_hook = false;
+    do {
+        if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
+            kiero::bind(8, (void**)& oPresent, hkPresent);
+            init_hook = true;
+        }
+    } while (!init_hook);
 
     while (!(bShutdown = events_HandleKeyboard())) {
         // Main Loop
