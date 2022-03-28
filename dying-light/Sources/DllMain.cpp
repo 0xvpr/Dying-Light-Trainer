@@ -7,127 +7,50 @@
  *     Dying Light cheats written with C/C++ & Assembly.
 **/
 
-#include "Includes.hpp"
+#include "kiero/kiero.h"
 
 #include "Assembly.hpp"
 #include "Events.hpp"
-#include "Memory.hpp"
-#include <stdio.h>
+#include "Render.hpp"
 
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#include <stdio.h>
+#include <windows.h>
+
+extern Present oPresent;
 
 uintptr_t module_base_addr = 0;
 
-static bool bShutdown = false;
-static bool init = false;
+static constexpr uint16_t bind_index = 8u;
 static HANDLE hMainThread;
 
-Present oPresent;
-HWND window = nullptr;
-WNDPROC oWndProc;
-ID3D11Device* pDevice = nullptr;
-ID3D11DeviceContext* pContext = nullptr;
-ID3D11RenderTargetView* mainRenderTargetView;
-
-VOID
-InitImGui() {
-
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
-    ImGui_ImplWin32_Init(window);
-    ImGui_ImplDX11_Init(pDevice, pContext);
-
-}
-
-[[nodiscard]]
-LRESULT
-WINAPI
-WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-
-    if (true && ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam)) {
-        return true;
-    }
-
-    return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
-}
-
-[[nodiscard]]
-HRESULT
-WINAPI
-hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags) {
-
-    if (!init) {
-        if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)& pDevice))) {
-            pDevice->GetImmediateContext(&pContext);
-            DXGI_SWAP_CHAIN_DESC sd;
-            pSwapChain->GetDesc(&sd);
-            window = sd.OutputWindow;
-            ID3D11Texture2D* pBackBuffer;
-            pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer);
-            pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &mainRenderTargetView);
-            pBackBuffer->Release();
-            oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-            InitImGui();
-            init = true;
-        } else {
-            return oPresent(pSwapChain, SyncInterval, Flags);
-        }
-    }
-
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    
-    ImGui::NewFrame();
-    ImGui::SetWindowPos(ImVec2{10, 10});
-    ImGui::SetWindowSize(ImVec2{100, 60});
-
-    auto window_flags = ImGuiWindowFlags_NoMove |
-                        ImGuiWindowFlags_AlwaysAutoResize;
-    ImGui::Begin("Daylight Savings", nullptr, window_flags);
-    ImGui::End();
-
-    ImGui::Render();
-
-    pContext->OMSetRenderTargets(1, &mainRenderTargetView, nullptr);
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-    return oPresent(pSwapChain, SyncInterval, Flags);
-
-}
-
-[[nodiscard]]
 DWORD
 WINAPI
 MainThread() {
 
-    module_base_addr = (uintptr_t)GetModuleHandle(nullptr);
-
-    bool init_hook = false;
-    do {
+    for (;;) {
         if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success) {
-            kiero::bind(8, (void**)& oPresent, hkPresent);
-            init_hook = true;
+            kiero::bind(bind_index, reinterpret_cast<void **>(&oPresent), reinterpret_cast<void *>(hkPresent));
+            break;
         }
-    } while (!init_hook);
+    }
 
-    while (!(bShutdown = events_HandleKeyboard())) {
+    for (;!events::HandleKeyboard();) {
         // Main Loop
     }
 
+    kiero::unbind(bind_index);
     kiero::shutdown();
     return TRUE;
 }
 
-[[nodiscard]]
 BOOL
 WINAPI 
 DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved) {
 
-    UNREFERENCED_PARAMETER(lpReserved); // Caveman mode
+    UNREFERENCED_PARAMETER(lpReserved);
+    module_base_addr = (uintptr_t)GetModuleHandle(nullptr);
 
     switch (dwReason) {
-
         case DLL_PROCESS_ATTACH:
         {
             DisableThreadLibraryCalls((HMODULE)hInstance);
@@ -146,9 +69,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved) {
             break;
         }
         default:
-        {
             return FALSE;
-        }
     }
 
     return TRUE;

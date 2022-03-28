@@ -1,34 +1,44 @@
 #include "Events.hpp"
 #include "Hacks.hpp"
+#include "Menu.hpp"
 
-#ifndef WIN32_LEAN_AND_MEAN
-#   define WIN32_LEAN_AND_MEAN
-#endif // WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdio.h>
 
-extern bool bGodmode;
-extern bool bOneShot;
-extern bool bStamina;
-
-#define TOGGLE(vkey,func,bState,name)                            \
-    if (GetAsyncKeyState(vkey) & 1)                              \
-    {                                                            \
-        bState = !bState;                                        \
-        func(bState);                                            \
-        printf(#name":\t%s\n", bState ? "Enabled" : "Disabled"); \
+#define TOGGLE(vkey,func,item_idx)                 \
+    if (GetAsyncKeyState(vkey) & 1)                \
+    {                                              \
+        auto& bState = menu[item_idx].bEnabled; \
+        bState = !bState;                          \
+        func(bState);                              \
     }
 
-bool events_HandleKeyboard(void) {
+static auto& menu = *Menu::Instance();
 
-    TOGGLE(VK_F1, hacks_ToggleGodmode, bGodmode, "Godmode");
-    TOGGLE(VK_F2, hacks_ToggleOneShot, bOneShot, "Oneshot");
-    TOGGLE(VK_F3, hacks_ToggleInfiniteStamina, bStamina, "Inf Stamina");
+bool events::HandleKeyboard() {
+
+    TOGGLE(VK_F1, hacks::ToggleGodmode, item::godmode);
+    TOGGLE(VK_F2, hacks::ToggleOneShot, item::oneshot);
+    TOGGLE(VK_F3, hacks::ToggleInfiniteStamina, item::infinite_stamina);
+
+    // Handle Menu Position
+    if (GetAsyncKeyState(VK_LEFT)  & 1) {
+        menu.MovePosLeft();
+    }
+    if (GetAsyncKeyState(VK_RIGHT) & 1) {
+        menu.MovePosRight();
+    }
+    if (GetAsyncKeyState(VK_UP)    & 1) {
+        menu.MovePosUp();
+    }
+    if (GetAsyncKeyState(VK_DOWN)  & 1) {
+        menu.MovePosDown();
+    }
 
     // Cleanup & reset
     if (GetAsyncKeyState(VK_END)) {
-        hacks_ToggleOneShot(false);
-        hacks_ToggleGodmode(false);
+        hacks::ToggleGodmode(false);
+        hacks::ToggleOneShot(false);
 
         return true;
     }

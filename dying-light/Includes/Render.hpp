@@ -1,22 +1,21 @@
 #ifndef RENDER_HEADER
 #define RENDER_HEADER
 
-typedef struct _HackMenu
-{
-    bool bEnabled;
-    char name[64];
-} HackMenu;
+#include <dxgi.h>
+#include <windows.h>
 
-typedef struct _Resolution
-{
-    int x;
-    int y;
-} Resolution;
+typedef HRESULT(__stdcall* Present) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
+typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
+typedef uintptr_t PTR;
 
-typedef struct _Coordinates
-{
-    int x;
-    int y;
-} Coordinates;
+[[nodiscard]]
+LRESULT
+WINAPI
+WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+[[nodiscard]]
+HRESULT
+WINAPI
+hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 
 #endif // RENDER_HEADER

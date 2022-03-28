@@ -1,12 +1,8 @@
 #ifndef MEMORY_HEADER
 #define MEMORY_HEADER
 
-#ifndef WIN32_LEAN_AND_MEAN
-#   define WIN32_LEAN_AND_MEAN
-#endif // WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
 #include <stdint.h>
+#include <windows.h>
 
 /**
  * Finds the Dynamic Memory Access address of an embedded process.

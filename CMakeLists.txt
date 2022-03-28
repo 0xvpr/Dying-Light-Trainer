@@ -76,19 +76,19 @@ set(ASM_DIR ${SOURCE_DIR}/Assembly)
 set(SOURCES 
     # CXX Sources
     ${SOURCE_DIR}/DllMain.cpp
-    ${SOURCE_DIR}/Drawing.cpp
     ${SOURCE_DIR}/Events.cpp
-    ${SOURCE_DIR}/Render.cpp
     ${SOURCE_DIR}/Hacks.cpp
     ${SOURCE_DIR}/Memory.cpp
+    ${SOURCE_DIR}/Menu.cpp
+    ${SOURCE_DIR}/Render.cpp
     # CXX Includes
     ${INCLUDE_DIR}/Assembly.hpp
     ${INCLUDE_DIR}/Offsets.hpp
-    ${INCLUDE_DIR}/Drawing.hpp
     ${INCLUDE_DIR}/Events.hpp
-    ${INCLUDE_DIR}/Render.hpp
     ${INCLUDE_DIR}/Hacks.hpp
     ${INCLUDE_DIR}/Memory.hpp
+    ${INCLUDE_DIR}/Menu.hpp
+    ${INCLUDE_DIR}/Render.hpp
     # Assembly Sources
     ${ASM_DIR}/foo.asm
     ${ASM_DIR}/bar.asm
