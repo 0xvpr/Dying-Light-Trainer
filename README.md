@@ -1,8 +1,6 @@
-# Dying Light Trainer
+# Dying Light Trainer (Version 2)
 ## Timeline
-- Project Started:     2021/12/13
-- Converted to C++:    2021/12/14
-- Converted back to C: 2021/12/16
+- Project Started:     March 27th, 2022
 
 ## Overview
 **[ UNFINISHED ]**
