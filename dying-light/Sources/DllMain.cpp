@@ -1,5 +1,5 @@
 /**
- * Creators:  VPR
+ * Creator:  VPR
  * Created:   December 13th, 2021
  * Updated:   March 28th, 2022
  * 
@@ -13,7 +13,6 @@
 #include "Events.hpp"
 #include "Render.hpp"
 
-#include <stdio.h>
 #include <windows.h>
 
 extern Present oPresent;
@@ -21,7 +20,7 @@ extern Present oPresent;
 uintptr_t module_base_addr = 0;
 
 static constexpr uint16_t bind_index = 8u;
-static HANDLE hMainThread;
+static HANDLE hMainThread = nullptr;
 
 DWORD
 WINAPI
