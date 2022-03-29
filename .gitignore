@@ -86,3 +86,6 @@ win-build
 
 # Compiled files 
 *.bin
+
+# Misc
+compile_flags.txt

@@ -9,4 +9,4 @@
 __game_name="DyingLightGame.exe"
 __dll_path="./Lib/Release/daylight-savings.dll"
 
-vpr-pidjeon_x64 "${__game_name}" "${__dll_path}" -i ManualMap
+vpr-pidjeon_x64 "${__game_name}" "${__dll_path}"

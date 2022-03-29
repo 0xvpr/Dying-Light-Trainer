@@ -15,7 +15,7 @@ bool bGodmode = false;
 bool bOneShot = false;
 bool bStamina = false;
 
-void hacks_ToggleGodmode(bool bEnabled) {
+void hacks::ToggleGodmode(bool bEnabled) {
 
     HANDLE      client;
     MODULEINFO  modInfo;
@@ -65,7 +65,7 @@ void hacks_ToggleGodmode(bool bEnabled) {
 
 }
 
-void hacks_ToggleOneShot(bool bEnabled) {
+void hacks::ToggleOneShot(bool bEnabled) {
 
     HANDLE      client;
     MODULEINFO  modInfo;
@@ -126,7 +126,7 @@ void hacks_ToggleOneShot(bool bEnabled) {
 
 }
 
-void hacks_ToggleInfiniteStamina(bool bEnabled) {
+void hacks::ToggleInfiniteStamina(bool bEnabled) {
 
     HANDLE      client;
     MODULEINFO  modInfo;

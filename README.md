@@ -1,8 +1,6 @@
-# Dying Light Trainer
+# Dying Light Trainer (Version 2)
 ## Timeline
-- Project Started:     2021/12/13
-- Converted to C++:    2021/12/14
-- Converted back to C: 2021/12/16
+- Project Started:     March 27th, 2022
 
 ## Overview
 **[ UNFINISHED ]**
@@ -28,26 +26,25 @@ Once the DLL is injected, you will have access to the following Hacks:
 - [ ] F4: Noclip
 - [ ] F5: Flash (5x Speed)
 
-## Build Instructions
-### Debian
-#### Toolchain
-```bash
-# Install toolchain for the required compiler
-chmod +x ./install-toolchain.sh
-sudo ./install-toolchain.sh # Modify it as you please before executing
-```
-#### Build
-```bash
-make -j$(nproc) # defaults to both release and debug builds
-```
-
 ### Windows
-#### Build
+#### Powershell
 ```powershell
 # Requires C++ Desktop package for visual studio
-cmake.exe -B win-build
-cmake.exe --build win-build
+./build.ps1
 ```
 
+#### Visual Studio
+```powershell
+# Requires C++ Desktop package for visual studio
+# Open folder 
+```
+
+## Build Instructions
+### Ubuntu (Docker)
+```bash
+
+```
+
+
 ## Known Issues
-[ None at the moment ]
+- One shot kills everything in sight... on sight...
